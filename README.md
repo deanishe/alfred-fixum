@@ -49,12 +49,13 @@ To restore a workflow's original Alfred-Workflow library if the fix actually bro
 Getting help
 ------------
 
-Post [a GitHub issue][issues] or visit the [Alfred-Workflow thread on alfredforum.com][forum].
+Post [a GitHub issue][issues], or visit the [thread for this workflow][forum-fixum] or the [one for Alfred-Workflow][forum-aw] on [the Alfred forum](https://www.alfredforum.com).
 
 
 [mit]: ./src/LICENCE.txt
 [aw]: https://github.com/deanishe/alfred-workflow/
 [bug]: https://github.com/deanishe/alfred-workflow/issues/111
-[forum]: https://www.alfredforum.com/topic/4031-workflow-library-for-python/
+[forum-aw]: https://www.alfredforum.com/topic/4031-workflow-library-for-python/
+[forum-fixum]: https://www.alfredforum.com/topic/10193-python-fix-how-to-fix-python-workflows-hanging-alfred-on-sierra/
 [issues]: https://github.com/deanishe/alfred-fixum/issues/
 [releases]: https://github.com/deanishe/alfred-fixum/releases/latest
