@@ -48,48 +48,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>concurrently</key>
-				<false/>
-				<key>escaping</key>
-				<integer>102</integer>
-				<key>script</key>
-				<string>mode=$1
-datadir="$alfred_workflow_data"
-cachedir="$alfred_workflow_cache"
-blacklist="${datadir}/blacklist.txt"
-logfile="${cachedir}/net.deanishe.alfred.fixum.log"
-
-# create data &amp;  cache directories, logfile and blacklist
-test -d "$cachedir" || mkdir -p "$cachedir"
-test -f "$logfile" || touch "$logfile"
-
-test -d "$datadir" || mkdir -p "$datadir"
-test -f "$blacklist" || cp blacklist.default.txt "$blacklist"
-
-# script actions
-[[ "$mode" = dryrun ]] &amp;&amp; /usr/bin/python fixum.py --nothing
-[[ "$mode" = fix ]] &amp;&amp; /usr/bin/python fixum.py
-[[ "$mode" = blacklist ]] &amp;&amp; open "$blacklist"
-[[ "$mode" = log ]] &amp;&amp; open -a Console "$logfile"
-
-exit 0</string>
-				<key>scriptargtype</key>
-				<integer>1</integer>
-				<key>scriptfile</key>
-				<string></string>
-				<key>type</key>
-				<integer>5</integer>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.action.script</string>
-			<key>uid</key>
-			<string>97033D94-9B6F-446C-94E5-AB677B5ABB4F</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>lastpathcomponent</key>
 				<false/>
 				<key>onlyshowifquerypopulated</key>
@@ -135,6 +93,48 @@ exit 0</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>mode=$1
+datadir="$alfred_workflow_data"
+cachedir="$alfred_workflow_cache"
+blacklist="${datadir}/blacklist.txt"
+logfile="${cachedir}/net.deanishe.alfred.fixum.log"
+
+# create data &amp;  cache directories, logfile and blacklist
+test -d "$cachedir" || mkdir -p "$cachedir"
+test -f "$logfile" || touch "$logfile"
+
+test -d "$datadir" || mkdir -p "$datadir"
+test -f "$blacklist" || cp blacklist.default.txt "$blacklist"
+
+# script actions
+[[ "$mode" = dryrun ]] &amp;&amp; /usr/bin/python fixum.py --nothing
+[[ "$mode" = fix ]] &amp;&amp; /usr/bin/python fixum.py
+[[ "$mode" = blacklist ]] &amp;&amp; open "$blacklist"
+[[ "$mode" = log ]] &amp;&amp; open -a Console "$logfile"
+
+exit 0</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>97033D94-9B6F-446C-94E5-AB677B5ABB4F</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
@@ -163,7 +163,7 @@ exit 0</string>
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>0.1.0</string>
+	<string>0.1.1</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>

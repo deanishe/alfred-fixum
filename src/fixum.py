@@ -79,7 +79,7 @@ def get_aw_info(dirpath):
     """Return version and directory of AW if it's installed."""
     candidates = []
     for root, _, filenames in os.walk(dirpath):
-        if 'workflow.py' in filenames:
+        if 'workflow.py' in filenames and os.path.basename(root) == 'workflow':
             candidates.append(root)
 
     for dp in candidates:
@@ -197,6 +197,7 @@ def main(wf):
     root = get_workflow_directory()
     if not root:
         log.critical('could not find your workflow directory')
+        print('ERROR: could not find workflow directory')
         return 1
 
     log.info('workflow directory: %s', root)
@@ -279,7 +280,7 @@ def main(wf):
             log.info('[DONE] failed to update %d/%d workflow(s) with a '
                      'newer version of Alfred-Workflow',
                      failed, failed + updated)
-            print('Failed to update {}/{} workflow(s)'.format(
+            print('ERROR: Failed to update {}/{} workflow(s)'.format(
                   failed, failed + updated))
             return 1
         else:
