@@ -127,11 +127,7 @@ def get_workflow_info(dirpath):
 def get_workflow_directory():
     """Return path to Alfred's workflow directory."""
     prefs = read_plist(ALFRED_PREFS)
-    syncdir = prefs.get('syncfolder')
-
-    if not syncdir:
-        log.debug('Alfred sync folder not found')
-        return None
+    syncdir = prefs.get('syncfolder', '~/Library/Application Support/Alfred 3')
 
     syncdir = os.path.expanduser(syncdir)
     wf_dir = os.path.join(syncdir, 'Alfred.alfredpreferences/workflows')
