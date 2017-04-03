@@ -9,6 +9,12 @@ If you're not running Sierra, you don't need to run Fixum.
 Fixum analyses your installed workflows to see if any use an old, buggy version of the Alfred-Workflow library. If they do, it can update them with a newer, working version.
 
 
+Installation
+------------
+
+Download from [GitHub releases][releases].
+
+
 Usage
 -----
 
@@ -51,3 +57,4 @@ Post [a GitHub issue][issues] or visit the [Alfred-Workflow thread on alfredforu
 [bug]: https://github.com/deanishe/alfred-workflow/issues/111
 [forum]: https://www.alfredforum.com/topic/4031-workflow-library-for-python/
 [issues]: https://github.com/deanishe/alfred-fixum/issues/
+[releases]: https://github.com/deanishe/alfred-fixum/releases/latest
