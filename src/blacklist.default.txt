@@ -1,0 +1,8 @@
+# Add the bundle IDs of any workflows you wish to *not* update
+# to this file, one per line.
+#
+# You may use glob-style patterns, e.g. net.deanishe.* would ignore
+# all of deanishe's workflows.
+#
+# Empty lines or those beginning with # are ignored
+

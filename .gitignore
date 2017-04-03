@@ -1,0 +1,109 @@
+#                         d88b
+#                         8`'8
+# .d8888b. .d8888b.       d8b        .d8888b. 88d888b. 88d888b. .d8888b.
+# 88'  `88 Y8ooooo.     d8P`8b       88'  `88 88'  `88 88'  `88 Y8ooooo.
+# 88.  .88       88     d8' `8bP     88.  .88 88.  .88 88.  .88       88
+# `88888P' `88888P'     `888P'`YP    `88888P8 88Y888P' 88Y888P' `88888P'
+#                                             88       88
+#                                             dP       dP                                                             dP       dP
+.DS_Store
+._*
+Icon
+
+
+# Dropbox
+.dropbox.attr
+
+#                dP oo   dP
+#                88      88
+# .d8888b. .d888b88 dP d8888P .d8888b. 88d888b. .d8888b.
+# 88ooood8 88'  `88 88   88   88'  `88 88'  `88 Y8ooooo.
+# 88.  ... 88.  .88 88   88   88.  .88 88             88
+# `88888P' `88888P8 dP   dP   `88888P' dP       `88888P'
+
+*.sublime-project
+*.sublime-workspace
+.idea
+.tags
+.tags_sorted_by_file
+.ropeproject
+.project
+.pydevproject
+.settings
+build
+dist
+.svn
+*.swp
+*.swo
+*.bak
+*~
+.sass-cache
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+Session.vim
+.netrwhist
+
+
+#                     dP   dP
+#                     88   88
+# 88d888b. dP    dP d8888P 88d888b. .d8888b. 88d888b.
+# 88'  `88 88    88   88   88'  `88 88'  `88 88'  `88
+# 88.  .88 88.  .88   88   88    88 88.  .88 88    88
+# 88Y888P' `8888P88   dP   dP    dP `88888P' dP    dP
+# 88            .88
+# dP        d8888P
+
+# pyenv
+.python-version
+
+# Packages
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts
+var/
+sdist/
+develop-eggs
+.installed.cfg
+
+# Installer logs
+pip-log.txt
+
+# Unit test / coverage reports
+.coverage
+.tox
+
+# Compiled Python files
+*.py[cod]
+
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*$py.class
+
+# C extensions
+*.so
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+.hypothesis/
+
+*.log
+*.log.1
+
+# Sphinx documentation
+docs/_build/

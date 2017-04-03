@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string>net.deanishe.alfred.fixum</string>
+	<key>connections</key>
+	<dict>
+		<key>1FFB6897-CFE2-4086-8920-CBEC8B411C31</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>97033D94-9B6F-446C-94E5-AB677B5ABB4F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>90302262-60E4-4C1C-AAEA-2A5C3F4C025A</key>
+		<array/>
+		<key>97033D94-9B6F-446C-94E5-AB677B5ABB4F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>90302262-60E4-4C1C-AAEA-2A5C3F4C025A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Dean Jackson</string>
+	<key>description</key>
+	<string>Fix Alfred 3 workflows affected by the Sierra background process bug</string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>Fixum</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>mode=$1
+datadir="$alfred_workflow_data"
+cachedir="$alfred_workflow_cache"
+blacklist="${datadir}/blacklist.txt"
+logfile="${cachedir}/net.deanishe.alfred.fixum.log"
+
+# create data &amp;  cache directories, logfile and blacklist
+test -d "$cachedir" || mkdir -p "$cachedir"
+test -f "$logfile" || touch "$logfile"
+
+test -d "$datadir" || mkdir -p "$datadir"
+test -f "$blacklist" || cp blacklist.default.txt "$blacklist"
+
+# script actions
+[[ "$mode" = dryrun ]] &amp;&amp; /usr/bin/python fixum.py --nothing
+[[ "$mode" = fix ]] &amp;&amp; /usr/bin/python fixum.py
+[[ "$mode" = blacklist ]] &amp;&amp; open "$blacklist"
+[[ "$mode" = log ]] &amp;&amp; open -a Console "$logfile"
+
+exit 0</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>5</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>97033D94-9B6F-446C-94E5-AB677B5ABB4F</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>Fixum</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>90302262-60E4-4C1C-AAEA-2A5C3F4C025A</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Dry Run","arg":"dryrun","subtitle":"Show what the workflow would update"},{"title":"View Log File","arg":"log","subtitle":"Open the logfile in Console.app"},{"title":"Edit Blacklist","arg":"blacklist","subtitle":"List of workflows to *not* update"},{"title":"Fix Workflows","arg":"fix","subtitle":"Replace broken versions of Alfred-Workflow within your workflows"}]</string>
+				<key>keyword</key>
+				<string>fixum</string>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Update Alfred-Workflow library in workflows using a buggy version</string>
+				<key>title</key>
+				<string>Fix Python Workflows</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>1FFB6897-CFE2-4086-8920-CBEC8B411C31</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string></string>
+	<key>uidata</key>
+	<dict>
+		<key>1FFB6897-CFE2-4086-8920-CBEC8B411C31</key>
+		<dict>
+			<key>xpos</key>
+			<integer>30</integer>
+			<key>ypos</key>
+			<integer>30</integer>
+		</dict>
+		<key>90302262-60E4-4C1C-AAEA-2A5C3F4C025A</key>
+		<dict>
+			<key>xpos</key>
+			<integer>370</integer>
+			<key>ypos</key>
+			<integer>30</integer>
+		</dict>
+		<key>97033D94-9B6F-446C-94E5-AB677B5ABB4F</key>
+		<dict>
+			<key>xpos</key>
+			<integer>200</integer>
+			<key>ypos</key>
+			<integer>30</integer>
+		</dict>
+	</dict>
+	<key>version</key>
+	<string>0.1.0</string>
+	<key>webaddress</key>
+	<string></string>
+</dict>
+</plist>
