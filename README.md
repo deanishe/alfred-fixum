@@ -18,7 +18,7 @@ Download from [GitHub releases][releases].
 Usage
 -----
 
-Before you use this workflow, make a backup of your workflows directory. To get to it, right-click on one in Alfred Preferences, choose **Open in Finder**, then navigate to the parent `workflows` directory. Drag a copy to your Desktop or run **Compress "workflows"** on it from the context menu.
+Before you use this workflow, make a backup of your workflows directory. To get to it, right-click on a workflow in Alfred Preferences, choose **Open in Finder**, then navigate to the parent `workflows` directory. Drag a copy to your Desktop or run **Compress "workflows"** on it from the context menu.
 
 *__Don't__* immediately run **Fix Workflows**, but rather be sure to **View Log File** and use **Dry Run** a few times to check this workflow isn't going to overwrite something it shouldn't.
 
