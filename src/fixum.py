@@ -220,7 +220,12 @@ def main(wf):
         if not os.path.isdir(p):
             log.debug('ignoring non-directory: %s', dn)
 
-        info = get_workflow_info(p)
+        try:
+            info = get_workflow_info(p)
+        except Exception as err:
+            log.error('could not read workflow: %s: %s', dn, err)
+            continue
+
         if not info or not info.aw_dir:
             log.debug('not an AW workflow: %s', dn)
             continue
@@ -290,7 +295,7 @@ def main(wf):
 if __name__ == '__main__':
     wf = Workflow3(
         default_settings=DEFAULT_SETTINGS,
-        # update_settings=UPDATE_SETTINGS,
+        update_settings=UPDATE_SETTINGS,
         help_url=HELP_URL,
     )
     log = wf.logger

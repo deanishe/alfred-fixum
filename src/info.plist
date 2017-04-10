@@ -48,33 +48,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>fixedorder</key>
-				<true/>
-				<key>items</key>
-				<string>[{"title":"Dry Run","arg":"dryrun","subtitle":"Show what the workflow would update"},{"title":"View Log File","arg":"log","subtitle":"Open the logfile in Console.app"},{"title":"Edit Blacklist","arg":"blacklist","subtitle":"List of workflows to *not* update"},{"title":"Fix Workflows","arg":"fix","subtitle":"Replace broken versions of Alfred-Workflow within your workflows"}]</string>
-				<key>keyword</key>
-				<string>fixum</string>
-				<key>runningsubtext</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Update Alfred-Workflow library in workflows using a buggy version</string>
-				<key>title</key>
-				<string>Fix Python Workflows</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.listfilter</string>
-			<key>uid</key>
-			<string>1FFB6897-CFE2-4086-8920-CBEC8B411C31</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>concurrently</key>
 				<false/>
 				<key>escaping</key>
@@ -135,6 +108,33 @@ exit 0</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>fixedorder</key>
+				<true/>
+				<key>items</key>
+				<string>[{"title":"Dry Run","arg":"dryrun","subtitle":"Show what the workflow would update"},{"title":"View Log File","arg":"log","subtitle":"Open the logfile in Console.app"},{"title":"Edit Blacklist","arg":"blacklist","subtitle":"List of workflows to *not* update"},{"title":"Fix Workflows","arg":"fix","subtitle":"Replace broken versions of Alfred-Workflow within your workflows"}]</string>
+				<key>keyword</key>
+				<string>fixum</string>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Update Alfred-Workflow library in workflows using a buggy version</string>
+				<key>title</key>
+				<string>Fix Python Workflows</string>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.listfilter</string>
+			<key>uid</key>
+			<string>1FFB6897-CFE2-4086-8920-CBEC8B411C31</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
@@ -163,7 +163,7 @@ exit 0</string>
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>0.1.2</string>
+	<string>0.1.3</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
