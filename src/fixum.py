@@ -44,7 +44,8 @@ BLACKLIST = [
     'net.deanishe.alfred.fixum',  # this workflow
 ]
 
-MIN_VERSION = Version('1.25')
+# version of AW in this workflow
+MIN_VERSION = Version('1.25.2')
 
 # path to good copy of Alfred-Workflow
 WF_DIR = os.path.join(os.path.dirname(__file__), 'workflow')
