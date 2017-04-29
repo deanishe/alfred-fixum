@@ -2,11 +2,9 @@
 Alfred Fixum
 ============
 
-Fix Alfred 3 Python workflows affected by [the Sierra background process bug][bug] in [Alfred-Workflow][aw].
+Fix Alfred 3 Python workflows affected by bugs in [Alfred-Workflow][aw], in particular the [the Sierra background process bug][bug].
 
-If you're not running Sierra, you don't need to run Fixum.
-
-Fixum analyses your installed workflows to see if any use an old, buggy version of the Alfred-Workflow library. If they do, it can update them with a newer, working version.
+Fixum analyses your installed workflows to see if any use an old version of the Alfred-Workflow library. If they do, it can update them with a newer, working version.
 
 
 Installation
@@ -34,6 +32,8 @@ If everything looks good, run **Fix Workflows**.
 ### Alfred commands ###
 
 - `fixnum` — Show available actions
+    - **A newer version of Fixum is available** — Shown if an update
+      for Fixum is available.
     - **Dry Run** — Analyse installed workflows, but don't change anything
     - **View Log File** — See what the workflow would change/has changed
     - **Edit Blacklist** — Change the list of bundle IDs that should not be updated (e.g. your own workflows)

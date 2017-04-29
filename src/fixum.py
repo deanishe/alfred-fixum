@@ -11,6 +11,7 @@
 """fixum [options]
 
 Usage:
+    fixum list <query>
     fixum [-n]
     fixum -h|--help
     fixum --version
@@ -33,7 +34,15 @@ import subprocess
 import sys
 
 import docopt
-from workflow import Workflow3
+from workflow import (
+    ICON_WARNING,
+    MATCH_STARTSWITH,
+    MATCH_CAPITALS,
+    MATCH_ATOM,
+    MATCH_INITIALS_STARTSWITH,
+    MATCH_SUBSTRING,
+    Workflow3,
+)
 from workflow.update import Version
 
 
@@ -44,8 +53,11 @@ BLACKLIST = [
     'net.deanishe.alfred.fixum',  # this workflow
 ]
 
+ICON_UPDATE = 'update-available.png'
+
 # version of AW in this workflow
-MIN_VERSION = Version('1.25.2')
+VERSION_FILE = os.path.join(os.path.dirname(__file__), 'workflow/version')
+MIN_VERSION = Version(open(VERSION_FILE).read())
 
 # path to good copy of Alfred-Workflow
 WF_DIR = os.path.join(os.path.dirname(__file__), 'workflow')
@@ -64,6 +76,11 @@ UPDATE_SETTINGS = {
 
 HELP_URL = 'https://github.com/deanishe/alfred-fixum/issues'
 
+MATCH = (MATCH_STARTSWITH |
+         MATCH_CAPITALS |
+         MATCH_ATOM |
+         MATCH_INITIALS_STARTSWITH |
+         MATCH_SUBSTRING)
 
 Workflow = namedtuple('Workflow', 'name id dir aw_version aw_dir')
 AWInfo = namedtuple('AWInfo', 'path version')
@@ -180,9 +197,58 @@ def update_workflow(info):
     log.info('    installed new version of Alfred-Workflow')
 
 
+def list_actions(opts):
+    """Show available workflow actions."""
+    query = opts['<query>']
+    log.debug('query=%r', query)
+
+    if wf.update_available:
+        wf.add_item('A newer version of Fixum is available',
+                    u'⇥ or ↩ to install update',
+                    valid=False,
+                    autocomplete='workflow:update',
+                    icon=ICON_UPDATE)
+
+    items = [
+        dict(title='Dry Run',
+             subtitle='Show what the workflow would update',
+             arg='dryrun',
+             valid=True),
+        dict(title='View Log File',
+             subtitle='Open the log file in Console.app',
+             arg='log',
+             valid=True),
+        dict(title='Edit Blacklist',
+             subtitle='List of workflows to *not* update',
+             arg='blacklist',
+             valid=True),
+        dict(title='Fix Workflows',
+             subtitle=('Replace broken versions of Alfred-Workflow '
+                       'within your workflows'),
+             arg='fix',
+             valid=True),
+    ]
+
+    if query:
+        items = wf.filter(query, items, key=lambda d: d['title'],
+                          match_on=MATCH, min_score=50)
+
+    if not items:
+        wf.add_item('No matching actions', 'Try a different query',
+                    icon=ICON_WARNING)
+
+    for d in items:
+        wf.add_item(**d)
+
+    wf.send_feedback()
+
+
 def main(wf):
     """Run workflow script."""
     opts = docopt.docopt(__doc__, argv=wf.args, version=wf.version)
+    if opts['list']:
+        return list_actions(opts)
+
     dry_run = opts['--nothing']
     log.info('=' * 50)
     log.debug('opts=%r', opts)

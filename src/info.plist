@@ -6,7 +6,7 @@
 	<string>net.deanishe.alfred.fixum</string>
 	<key>connections</key>
 	<dict>
-		<key>1FFB6897-CFE2-4086-8920-CBEC8B411C31</key>
+		<key>4FFEB019-EBD2-452B-AC8B-54E7C33ABE9F</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
@@ -45,6 +45,49 @@
 	<string>Fixum</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>fixum</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string></string>
+				<key>script</key>
+				<string>/usr/bin/python fixum.py list "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Update Alfred-Workflow library in workflows using a buggy version</string>
+				<key>title</key>
+				<string>Fix Python Workflows</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>4FFEB019-EBD2-452B-AC8B-54E7C33ABE9F</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -108,42 +151,17 @@ exit 0</string>
 			<key>version</key>
 			<integer>1</integer>
 		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
-				<key>argumenttype</key>
-				<integer>1</integer>
-				<key>fixedorder</key>
-				<true/>
-				<key>items</key>
-				<string>[{"title":"Dry Run","arg":"dryrun","subtitle":"Show what the workflow would update"},{"title":"View Log File","arg":"log","subtitle":"Open the logfile in Console.app"},{"title":"Edit Blacklist","arg":"blacklist","subtitle":"List of workflows to *not* update"},{"title":"Fix Workflows","arg":"fix","subtitle":"Replace broken versions of Alfred-Workflow within your workflows"}]</string>
-				<key>keyword</key>
-				<string>fixum</string>
-				<key>runningsubtext</key>
-				<string></string>
-				<key>subtext</key>
-				<string>Update Alfred-Workflow library in workflows using a buggy version</string>
-				<key>title</key>
-				<string>Fix Python Workflows</string>
-				<key>withspace</key>
-				<true/>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.input.listfilter</string>
-			<key>uid</key>
-			<string>1FFB6897-CFE2-4086-8920-CBEC8B411C31</string>
-			<key>version</key>
-			<integer>1</integer>
-		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>This workflow upgrades the version of Alfred-Workflow used by your installed workflows.
+
+It is primarily a workaround to fix bugs that are preventing the workflows from updating themselves or causing issues with Alfred.</string>
 	<key>uidata</key>
 	<dict>
-		<key>1FFB6897-CFE2-4086-8920-CBEC8B411C31</key>
+		<key>4FFEB019-EBD2-452B-AC8B-54E7C33ABE9F</key>
 		<dict>
 			<key>xpos</key>
-			<integer>30</integer>
+			<integer>20</integer>
 			<key>ypos</key>
 			<integer>30</integer>
 		</dict>
@@ -163,7 +181,7 @@ exit 0</string>
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>0.1.5</string>
+	<string>0.2</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
