@@ -48,11 +48,6 @@ from workflow.update import Version
 
 log = None
 
-# bundle IDs of workflows to skip
-BLACKLIST = [
-    'net.deanishe.alfred.fixum',  # this workflow
-]
-
 ICON_UPDATE = 'update-available.png'
 
 # version of AW in this workflow
@@ -62,7 +57,8 @@ MIN_VERSION = Version(open(VERSION_FILE).read())
 # path to good copy of Alfred-Workflow
 WF_DIR = os.path.join(os.path.dirname(__file__), 'workflow')
 
-# Alfred 3 preferences property list
+# Alfred 3 preferences property list. Contains path to workflow
+# directory
 ALFRED_PREFS = os.path.expanduser(
     '~/Library/Preferences/com.runningwithcrayons.Alfred-Preferences-3.plist')
 
@@ -161,7 +157,7 @@ def get_workflow_directory():
 
 def load_blacklist():
     """Load bundle IDs of blacklisted workflows."""
-    blacklisted = BLACKLIST[:]
+    blacklisted = []
     p = wf.datafile('blacklist.txt')
     if os.path.exists(p):
         with open(p) as fp:
@@ -213,20 +209,20 @@ def list_actions(opts):
         dict(title='Dry Run',
              subtitle='Show what the workflow would update',
              arg='dryrun',
-             valid=True),
+             uid='dryrun'),
         dict(title='View Log File',
              subtitle='Open the log file in Console.app',
              arg='log',
-             valid=True),
+             uid='log'),
         dict(title='Edit Blacklist',
              subtitle='List of workflows to *not* update',
              arg='blacklist',
-             valid=True),
+             uid='blacklist'),
         dict(title='Fix Workflows',
              subtitle=('Replace broken versions of Alfred-Workflow '
                        'within your workflows'),
              arg='fix',
-             valid=True),
+             uid='fix'),
     ]
 
     if query:
@@ -286,6 +282,7 @@ def main(wf):
 
         if not os.path.isdir(p):
             log.debug('ignoring non-directory: %s', dn)
+            continue
 
         try:
             info = get_workflow_info(p)
@@ -295,6 +292,10 @@ def main(wf):
 
         if not info or not info.aw_dir:
             log.debug('not an AW workflow: %s', dn)
+            continue
+
+        if info.id == wf.bundleid:
+            log.debug('ignoring self')
             continue
 
         ok = True
@@ -315,7 +316,7 @@ def main(wf):
         log.info('       AW version: %s', info.aw_version)
 
         if info.aw_version >= MIN_VERSION:
-            log.info('[OK] workflow "%s" has a working version of '
+            log.info('[OK] workflow "%s" has current version of '
                      'Alfred-Workflow', info.name)
             log.info('')
             continue
