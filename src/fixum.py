@@ -59,6 +59,9 @@ ICON_UPDATE = 'update-available.png'
 VERSION_FILE = os.path.join(os.path.dirname(__file__), 'workflow/version')
 MIN_VERSION = Version(open(VERSION_FILE).read())
 
+# File that tells Alfred that this workflow is ok
+OK_FILENAME = '.alfredversionchecked'
+
 # path to good copy of Alfred-Workflow
 WF_DIR = os.path.join(os.path.dirname(__file__), 'workflow')
 
@@ -82,8 +85,14 @@ MATCH = (MATCH_STARTSWITH |
          MATCH_INITIALS_STARTSWITH |
          MATCH_SUBSTRING)
 
-Workflow = namedtuple('Workflow', 'name id dir aw_version aw_dir')
+Workflow = namedtuple('Workflow', 'name id dir aw')
 AWInfo = namedtuple('AWInfo', 'path version')
+
+
+def touch(path):
+    """Update the modtime of ``path`` to now."""
+    with open(path, 'a'):
+        os.utime(path, None)
 
 
 def read_plist(path):
@@ -139,7 +148,7 @@ def get_workflow_info(dirpath):
     if not aw:
         return None
 
-    return Workflow(name, bid, dirpath, aw.version, aw.path)
+    return Workflow(name, bid, dirpath, aw)
 
 
 def get_workflow_directory():
@@ -189,12 +198,21 @@ def _newname(path):
 def update_workflow(info):
     """Replace outdated version of Alfred-Workflow."""
     log.info('    updating "%s" ...', info.name)
-    newdir = _newname(info.aw_dir + '.old')
-    log.debug('    moving %s to %s ...', info.aw_dir, newdir)
-    os.rename(info.aw_dir, newdir)
-    log.debug('    copying new version of AW to %s ...', info.aw_dir)
-    shutil.copytree(WF_DIR, info.aw_dir)
-    log.info('    installed new version of Alfred-Workflow')
+    newdir = _newname(info.aw.path + '.old')
+    log.debug('    moving %s to %s ...', info.aw.path, newdir)
+    os.rename(info.aw.path, newdir)
+    log.debug('    copying new version of AW to %s ...', info.aw.path)
+    shutil.copytree(WF_DIR, info.aw.path)
+    log.info('    installed new version (%s) of Alfred-Workflow', MIN_VERSION)
+
+    # Add marker file to indicate workflow doesn't have the Sierra bug
+    okfile = os.path.join(info.aw.path, OK_FILENAME)
+    open(okfile, 'wb')
+
+    # Touch info.plist to let Alfred know the workflow has been updated
+    iplist = os.path.join(info.dir, 'info.plist')
+    touch(iplist)
+    log.debug('    touched %s', iplist)
 
 
 def list_actions(opts):
@@ -286,6 +304,7 @@ def main(wf):
 
         if not os.path.isdir(p):
             log.debug('ignoring non-directory: %s', dn)
+            continue
 
         try:
             info = get_workflow_info(p)
@@ -293,8 +312,12 @@ def main(wf):
             log.error('could not read workflow: %s: %s', dn, err)
             continue
 
-        if not info or not info.aw_dir:
+        if not info or not info.aw.path:
             log.debug('not an AW workflow: %s', dn)
+            continue
+
+        if info.id == wf.bundleid:
+            log.debug('ignoring self')
             continue
 
         ok = True
@@ -312,16 +335,16 @@ def main(wf):
         log.info('found AW workflow: %s', dn)
         log.info('             name: %s', info.name)
         log.info('        bundle ID: %s', info.id)
-        log.info('       AW version: %s', info.aw_version)
+        log.info('       AW version: %s', info.aw.version)
 
-        if info.aw_version >= MIN_VERSION:
-            log.info('[OK] workflow "%s" has a working version of '
+        if info.aw.version >= MIN_VERSION:
+            log.info('[OK] workflow "%s" has current version of '
                      'Alfred-Workflow', info.name)
             log.info('')
             continue
 
         log.info('[!!] workflow "%s" is using outdated version '
-                 '(%s) of Alfred-Workflow', info.name, info.aw_version)
+                 '(%s) of Alfred-Workflow', info.name, info.aw.version)
 
         if not dry_run:
             try:
@@ -329,7 +352,7 @@ def main(wf):
             except Exception as err:
                 failed += 1
                 log.error('failed to update workflow "%s" (%s): %s',
-                          info.name, info.aw_dir, err, exc_info=True)
+                          info.name, info.aw.path, err, exc_info=True)
                 log.info('')
                 continue
 
