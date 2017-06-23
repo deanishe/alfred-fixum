@@ -31,7 +31,7 @@ If everything looks good, run **Fix Workflows**.
 
 ### Alfred commands ###
 
-- `fixnum` — Show available actions
+- `fixum` — Show available actions
     - **A newer version of Fixum is available** — Shown if an update
       for Fixum is available.
     - **Dry Run** — Analyse installed workflows, but don't change anything

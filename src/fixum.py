@@ -48,24 +48,17 @@ from workflow.update import Version
 
 log = None
 
-# bundle IDs of workflows to skip
-BLACKLIST = [
-    'net.deanishe.alfred.fixum',  # this workflow
-]
-
 ICON_UPDATE = 'update-available.png'
 
 # version of AW in this workflow
 VERSION_FILE = os.path.join(os.path.dirname(__file__), 'workflow/version')
 MIN_VERSION = Version(open(VERSION_FILE).read())
 
-# File that tells Alfred that this workflow is ok
-OK_FILENAME = '.alfredversionchecked'
-
 # path to good copy of Alfred-Workflow
 WF_DIR = os.path.join(os.path.dirname(__file__), 'workflow')
 
-# Alfred 3 preferences property list
+# Alfred 3 preferences property list. Contains path to workflow
+# directory
 ALFRED_PREFS = os.path.expanduser(
     '~/Library/Preferences/com.runningwithcrayons.Alfred-Preferences-3.plist')
 
@@ -86,11 +79,11 @@ MATCH = (MATCH_STARTSWITH |
          MATCH_SUBSTRING)
 
 Workflow = namedtuple('Workflow', 'name id dir aw')
-AWInfo = namedtuple('AWInfo', 'path version')
+AWInfo = namedtuple('AWInfo', 'dir version')
 
 
 def touch(path):
-    """Update the modtime of ``path`` to now."""
+    """Set mtime and atime of ``path`` to now."""
     with open(path, 'a'):
         os.utime(path, None)
 
@@ -170,7 +163,7 @@ def get_workflow_directory():
 
 def load_blacklist():
     """Load bundle IDs of blacklisted workflows."""
-    blacklisted = BLACKLIST[:]
+    blacklisted = []
     p = wf.datafile('blacklist.txt')
     if os.path.exists(p):
         with open(p) as fp:
@@ -198,21 +191,18 @@ def _newname(path):
 def update_workflow(info):
     """Replace outdated version of Alfred-Workflow."""
     log.info('    updating "%s" ...', info.name)
-    newdir = _newname(info.aw.path + '.old')
-    log.debug('    moving %s to %s ...', info.aw.path, newdir)
-    os.rename(info.aw.path, newdir)
-    log.debug('    copying new version of AW to %s ...', info.aw.path)
-    shutil.copytree(WF_DIR, info.aw.path)
-    log.info('    installed new version (%s) of Alfred-Workflow', MIN_VERSION)
+    newdir = _newname(info.aw.dir + '.old')
+    log.debug('    moving %s to %s ...', info.aw.dir, newdir)
+    os.rename(info.aw.dir, newdir)
+    log.debug('    copying new version of AW to %s ...', info.aw.dir)
+    shutil.copytree(WF_DIR, info.aw.dir)
+    log.info('    installed new version of Alfred-Workflow')
 
-    # Add marker file to indicate workflow doesn't have the Sierra bug
-    okfile = os.path.join(info.aw.path, OK_FILENAME)
-    open(okfile, 'wb')
+    # Create file to let Alfred know this workflow is okay
+    open(os.path.join(info.aw.dir, '.alfredversionchecked'), 'w')
 
-    # Touch info.plist to let Alfred know the workflow has been updated
-    iplist = os.path.join(info.dir, 'info.plist')
-    touch(iplist)
-    log.debug('    touched %s', iplist)
+    # Touch info.plist to let Alfred know this workflow has been updated
+    touch(os.path.join(info.dir, 'info.plist'))
 
 
 def list_actions(opts):
@@ -231,19 +221,23 @@ def list_actions(opts):
         dict(title='Dry Run',
              subtitle='Show what the workflow would update',
              arg='dryrun',
+             uid='dryrun',
              valid=True),
         dict(title='View Log File',
              subtitle='Open the log file in Console.app',
              arg='log',
+             uid='log',
              valid=True),
         dict(title='Edit Blacklist',
              subtitle='List of workflows to *not* update',
              arg='blacklist',
+             uid='blacklist',
              valid=True),
         dict(title='Fix Workflows',
              subtitle=('Replace broken versions of Alfred-Workflow '
                        'within your workflows'),
              arg='fix',
+             uid='fix',
              valid=True),
     ]
 
@@ -312,7 +306,7 @@ def main(wf):
             log.error('could not read workflow: %s: %s', dn, err)
             continue
 
-        if not info or not info.aw.path:
+        if not info or not info.aw.dir:
             log.debug('not an AW workflow: %s', dn)
             continue
 
@@ -352,7 +346,7 @@ def main(wf):
             except Exception as err:
                 failed += 1
                 log.error('failed to update workflow "%s" (%s): %s',
-                          info.name, info.aw.path, err, exc_info=True)
+                          info.name, info.aw.dir, err, exc_info=True)
                 log.info('')
                 continue
 
