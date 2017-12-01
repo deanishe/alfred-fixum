@@ -1,4 +1,6 @@
-<img src="./src/icon.png" width="200" height="200">
+<div align="center">
+    <img src="./src/icon.png" width="200" height="200">
+</div>
 
 Alfred Fixum
 ============
