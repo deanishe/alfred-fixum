@@ -90,7 +90,10 @@ def touch(path):
 
 def read_plist(path):
     """Convert plist to XML and read its contents."""
-    cmd = [b'plutil', b'-convert', b'xml1', b'-o', b'-', path]
+    if isinstance(path, unicode):
+        path = path.encode('utf-8')
+
+    cmd = ['plutil', '-convert', 'xml1', '-o', '-', path]
     xml = subprocess.check_output(cmd)
     return plistlib.readPlistFromString(xml)
 
@@ -146,18 +149,40 @@ def get_workflow_info(dirpath):
 
 def get_workflow_directory():
     """Return path to Alfred's workflow directory."""
+    # It appears that `syncfolder` may be set but not used
+    # https://github.com/deanishe/alfred-fixum/issues/8
+    # So don't trust `syncfolder` and fall back to the default
+    # location, and if that fails, the grandparent of the working
+    # directory.
+    candidates = []
+
+    # User-specified sync directory
     prefs = read_plist(ALFRED_PREFS)
-    syncdir = prefs.get('syncfolder', '~/Library/Application Support/Alfred 3')
+    syncdir = prefs.get('syncfolder')
+    if syncdir:
+        candidates.append(syncdir)
 
-    syncdir = os.path.expanduser(syncdir)
-    wf_dir = os.path.join(syncdir, 'Alfred.alfredpreferences/workflows')
-    # log.debug('Workflow sync dir : %r', wf_dir)
+    # Default location
+    candidates.append('~/Library/Application Support/Alfred 3')
 
-    if os.path.exists(wf_dir):
-        # log.debug('Workflow directory retrieved from Alfred preferences')
-        return wf_dir
+    # Workflows are run with their own directory as the working path,
+    # so try grandparent as last resort (if workflow is being run
+    # from Alfred)
+    if os.getenv('alfred_version'):
+        candidates.append(
+            os.path.dirname(os.path.dirname(os.path.abspath(os.curdir))))
+    else:
+        log.warning('workflow is not being run from Alfred')
 
-    log.debug('Alfred.alfredpreferences/workflows not found')
+    candidates = [os.path.expanduser(p) for p in candidates]
+
+    for path in candidates:
+        log.debug('looking for workflows in %r ...', path)
+        wf_dir = os.path.join(path, 'Alfred.alfredpreferences/workflows')
+        if os.path.exists(wf_dir):
+            return wf_dir
+
+    log.debug('workflow directory not found')
     return None
 
 
@@ -264,7 +289,7 @@ def main(wf):
     dry_run = opts['--nothing']
     log.info('=' * 50)
     log.debug('opts=%r', opts)
-    log.info('looking for workflows using an outdated (buggy) version '
+    log.info('looking for workflows using an outdated version '
              'of Alfred-Workflow...')
 
     # subprocess.call(['open', '-a', 'Console', wf.logfile])
@@ -275,7 +300,7 @@ def main(wf):
         print('ERROR: could not find workflow directory')
         return 1
 
-    log.info('workflow directory: %s', root)
+    log.info('workflow directory: %r', root)
 
     blacklisted = load_blacklist()
 
