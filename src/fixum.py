@@ -27,6 +27,7 @@ from __future__ import print_function, absolute_import
 
 from collections import namedtuple
 from fnmatch import fnmatch
+import json
 import os
 import plistlib
 import shutil
@@ -60,7 +61,7 @@ WF_DIR = os.path.join(os.path.dirname(__file__), 'workflow')
 # Alfred 3 preferences property list. Contains path to workflow
 # directory
 ALFRED_PREFS = os.path.expanduser(
-    '~/Library/Preferences/com.runningwithcrayons.Alfred-Preferences-3.plist')
+    '~/Library/Preferences/com.runningwithcrayons.Alfred-Preferences.plist')
 
 # Initial values for `settings.json`
 DEFAULT_SETTINGS = {}
@@ -149,6 +150,20 @@ def get_workflow_info(dirpath):
 
 def get_workflow_directory():
     """Return path to Alfred's workflow directory."""
+    # See if we're running in Alfred first.
+    bundle = os.getenv('alfred_preferences')
+    if bundle:
+        return os.path.join(bundle, 'workflows')
+
+    # Alfred 4+ configuration
+    path = os.path.expanduser('~/Library/Application Support/Alfred/prefs.json')
+    if os.path.exists(path):
+        with open(path, 'rb') as fp:
+            prefs = json.load(fp)
+
+        return os.path.join(prefs.get('current', ''), 'workflows')
+
+    # Fall back to Alfred 3
     # It appears that `syncfolder` may be set but not used
     # https://github.com/deanishe/alfred-fixum/issues/8
     # So don't trust `syncfolder` and fall back to the default

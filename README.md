@@ -5,7 +5,9 @@
 Alfred Fixum
 ============
 
-Fix Alfred 3 Python workflows affected by bugs in [Alfred-Workflow][aw], in particular the [the Sierra background process bug][bug].
+Fix Alfred 3/4 Python workflows affected by bugs in [Alfred-Workflow][aw], in particular the [the Sierra background process bug][bug].
+
+In some cases, it can also fix Alfred 3 workflows that don't work in Alfred 4.
 
 Fixum analyses your installed workflows to see if any use an old version of the Alfred-Workflow library. If they do, it can update them with a newer, working version.
 
