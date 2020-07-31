@@ -187,8 +187,8 @@ It is primarily a workaround to fix bugs that are preventing the workflows from 
 		</dict>
 	</dict>
 	<key>version</key>
-	<string>0.10</string>
+	<string>0.11</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://github.com/deanishe/alfred-fixum</string>
 </dict>
 </plist>
